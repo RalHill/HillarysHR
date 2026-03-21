@@ -75,7 +75,7 @@ export function Sidebar({ items }: { items: NewsItem[] }) {
             margin: "0 0 12px 0",
           }}
         >
-          This Week&apos;s Alerts
+          This Month&apos;s Alerts
         </h4>
         <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
           {(["high", "medium", "low"] as const).map((level) => {
@@ -221,8 +221,17 @@ export function Sidebar({ items }: { items: NewsItem[] }) {
           }}
         >
           Curated daily from 7+ Canadian employment law and HR sources. AI
-          summaries reviewed and annotated by Hillary — a senior HR practitioner
-          with 10+ years of Canadian HR experience.
+          summaries reviewed and annotated by{" "}
+          <a
+            href="https://linkedin.com/in/hillary-chukwu-"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#c0392b", textDecoration: "none" }}
+          >
+            Hillary Chukwu
+          </a>
+          {" "}— a senior HR practitioner with 10+ years of Canadian HR
+          experience.
         </p>
         <p
           style={{
