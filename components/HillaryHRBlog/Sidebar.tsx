@@ -265,7 +265,7 @@ export function Sidebar({ items }: { items: NewsItem[] }) {
             margin: "0 0 10px 0",
           }}
         >
-          The week's top Canadian HR updates in your inbox every Monday.
+          The week&apos;s top Canadian HR updates in your inbox every Monday.
         </p>
         <input
           type="email"
@@ -333,7 +333,7 @@ export function Sidebar({ items }: { items: NewsItem[] }) {
               margin: "8px 0 0 0",
             }}
           >
-            Thanks! You're on the list.
+            Thanks! You&apos;re on the list.
           </p>
         )}
         {subscribeState === "error" && (

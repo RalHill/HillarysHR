@@ -22,7 +22,7 @@ export default function TakePage() {
           Opinion & Analysis
         </p>
         <h1 className="font-serif text-3xl font-light text-gray-900 mb-2">
-          Hillary's Take
+          Hillary&apos;s Take
         </h1>
         <p className="text-sm text-gray-500 leading-relaxed">
           Practitioner-level commentary on Canadian employment law, HR strategy,
