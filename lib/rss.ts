@@ -3,6 +3,7 @@
 // No API keys required. Pure HTTP fetch + XML parsing.
 
 import Parser from "rss-parser";
+import he from "he";
 import type { RSSSource } from "./sources";
 
 // rss-parser handles both RSS 2.0 and Atom formats automatically
@@ -56,10 +57,10 @@ export async function fetchFeed(source: RSSSource): Promise<FetchResult> {
 
       return {
         guid,
-        title: item.title?.trim() || "",
+        title: he.decode(item.title?.trim() || ""),
         link: item.link || item.url || "",
         pubDate: item.pubDate || item.isoDate || new Date().toISOString(),
-        content: content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(), // strip HTML tags
+        content: he.decode(content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()),
         sourceName: source.name,
         sourceShort: source.short,
         defaultProvinces: source.provinces,

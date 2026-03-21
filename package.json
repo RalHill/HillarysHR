@@ -13,6 +13,7 @@
     "@neondatabase/serverless": "^0.10.4",
     "@tailwindcss/typography": "^0.5.19",
     "gray-matter": "^4.0.3",
+    "he": "^1.2.0",
     "next": "^15.2.4",
     "next-mdx-remote": "^6.0.0",
     "react": "^19.0.0",
