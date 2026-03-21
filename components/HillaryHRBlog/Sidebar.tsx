@@ -75,7 +75,7 @@ export function Sidebar({ items }: { items: NewsItem[] }) {
             margin: "0 0 12px 0",
           }}
         >
-          This Week's Alerts
+          This Week&apos;s Alerts
         </h4>
         <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
           {(["high", "medium", "low"] as const).map((level) => {
