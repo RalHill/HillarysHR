@@ -27,6 +27,7 @@ export async function POST(req: NextRequest) {
     fetched: 0,
     new: 0,
     skipped: 0,
+    filtered: 0,
     errors: 0,
     rssErrors: [] as string[],
   };
@@ -43,9 +44,42 @@ export async function POST(req: NextRequest) {
     console.warn(`[Ingest] ${rssErrors.length} RSS feed(s) failed to fetch`);
   }
 
+  // ── Content Quality Filter ──────────────────────────────────────────────
+  const lowValuePatterns = [
+    /partner content/i,
+    /sponsored/i,
+    /supplier guide/i,
+    /award nominee/i,
+    /award winner/i,
+    /spotlight on/i,
+    /self-care/i,
+    /resilience tips/i,
+    /wellness tips/i,
+    /7 tips/i,
+    /five tips/i,
+    /ten tips/i,
+  ];
+
+  const qualityItems = rawItems.filter((item) => {
+    // Check title and content for low-value patterns
+    const titleAndContent = `${item.title} ${item.content}`.toLowerCase();
+    const hasLowValuePattern = lowValuePatterns.some((pattern) =>
+      pattern.test(titleAndContent)
+    );
+
+    // Check minimum content length (after cleaning)
+    const hasEnoughContent = item.content.length >= 150;
+
+    return !hasLowValuePattern && hasEnoughContent;
+  });
+
+  const filteredCount = rawItems.length - qualityItems.length;
+  stats.filtered = filteredCount;
+  console.log(`[Ingest] Filtered out ${filteredCount} low-value items`);
+
   // ── Step 2: Filter to only NEW items (not already in DB) ────────────────
   const newItems = [];
-  for (const item of rawItems) {
+  for (const item of qualityItems) {
     const exists = await itemExists(item.guid);
     if (exists) {
       stats.skipped++;

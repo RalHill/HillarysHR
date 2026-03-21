@@ -17,6 +17,23 @@ const parser = new Parser({
   },
 });
 
+// Strip boilerplate disclaimer text that appears at the start of some feeds (e.g., HRPA)
+function stripBoilerplate(text: string): string {
+  const disclaimerPatterns = [
+    /^\*?This (article|blog post|content|post) is (general|intended|partner|sponsored).{0,300}/i,
+    /^\*?Partner Content.{0,200}/i,
+    /^\*?Sponsored Content.{0,200}/i,
+    /^This (article|post|content) does not (constitute|capture|provide).{0,300}/i,
+    /^Note:.{0,300}/i,
+    /^Disclaimer:.{0,300}/i,
+  ];
+  let cleaned = text.trim();
+  for (const pattern of disclaimerPatterns) {
+    cleaned = cleaned.replace(pattern, "").trim();
+  }
+  return cleaned;
+}
+
 export interface RawFeedItem {
   guid: string;           // unique ID for deduplication
   title: string;
@@ -60,7 +77,7 @@ export async function fetchFeed(source: RSSSource): Promise<FetchResult> {
         title: he.decode(item.title?.trim() || ""),
         link: item.link || item.url || "",
         pubDate: item.pubDate || item.isoDate || new Date().toISOString(),
-        content: he.decode(content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()),
+        content: stripBoilerplate(he.decode(content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim())),
         sourceName: source.name,
         sourceShort: source.short,
         defaultProvinces: source.provinces,
