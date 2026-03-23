@@ -56,6 +56,30 @@ export default function StatHolidayCalculator() {
   const [isWorking, setIsWorking] = useState(false)
   const [copied, setCopied] = useState(false)
 
+  const toolSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Statutory Holiday Pay Calculator',
+    description: 'Calculate statutory holiday pay by province',
+    applicationCategory: 'BusinessApplication',
+    url: 'https://hillaryshr.blog/tools/stat-holiday-calculator',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'CAD',
+    },
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hillaryshr.blog' },
+      { '@type': 'ListItem', position: 2, name: 'Tools', item: 'https://hillaryshr.blog/tools' },
+      { '@type': 'ListItem', position: 3, name: 'Holiday Calculator', item: 'https://hillaryshr.blog/tools/stat-holiday-calculator' },
+    ],
+  }
+
   const provHolidays = HOLIDAYS_2026.filter(h => h.provinces.includes(province))
   const premium = PROVINCE_PREMIUMS[province] || 1.5
   
@@ -82,6 +106,8 @@ export default function StatHolidayCalculator() {
 
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '48px 32px 80px' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Header */}
       <div style={{ marginBottom: '48px' }}>
         <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#aaa', marginBottom: '16px' }}>Free HR Tool</div>

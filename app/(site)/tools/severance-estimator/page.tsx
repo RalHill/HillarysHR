@@ -56,6 +56,30 @@ export default function SeveranceEstimator() {
   const [bigPayroll, setBigPayroll] = useState(true)
   const [copied, setCopied] = useState(false)
 
+  const toolSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Severance Pay Estimator',
+    description: 'Estimate severance pay for Ontario employment terminations',
+    applicationCategory: 'BusinessApplication',
+    url: 'https://hillaryshr.blog/tools/severance-estimator',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'CAD',
+    },
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hillaryshr.blog' },
+      { '@type': 'ListItem', position: 2, name: 'Tools', item: 'https://hillaryshr.blog/tools' },
+      { '@type': 'ListItem', position: 3, name: 'Severance Estimator', item: 'https://hillaryshr.blog/tools/severance-estimator' },
+    ],
+  }
+
   const weeklyPay = salary / 52
   const noticWeeks = esaNotice(years)
   const noticePay = noticWeeks * weeklyPay
@@ -76,6 +100,8 @@ export default function SeveranceEstimator() {
 
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '48px 32px 80px' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Header */}
       <div style={{ marginBottom: '48px' }}>
         <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#aaa', marginBottom: '16px' }}>Free HR Tool • Ontario Only</div>

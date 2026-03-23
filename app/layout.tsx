@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Newsreader, Roboto } from "next/font/google";
+import { generateOrganizationSchema } from "@/lib/schema";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -45,12 +46,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationSchema = generateOrganizationSchema();
+
   return (
     <html
       lang="en"
       className={`${newsreader.variable} ${roboto.variable}`}
       style={{ scrollBehavior: "smooth" }}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+      </head>
       <body style={{ margin: 0, padding: 0, fontFamily: "var(--font-roboto)" }}>
         {children}
       </body>

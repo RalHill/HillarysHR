@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import { generateBlogPostingSchema, generateBreadcrumbSchema } from "@/lib/schema";
 
 export async function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
@@ -32,8 +33,29 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
+  const blogSchema = generateBlogPostingSchema({
+    title: post.title,
+    description: post.excerpt,
+    datePublished: post.date || new Date().toISOString(),
+    slug,
+  });
+
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://hillaryshr.blog' },
+    { name: 'Blog', url: 'https://hillaryshr.blog/take' },
+    { name: post.title, url: `https://hillaryshr.blog/take/${slug}` },
+  ]);
+
   return (
     <div className="max-w-2xl mx-auto px-6 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Back link */}
       <Link
         href="/take"

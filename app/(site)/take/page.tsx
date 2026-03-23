@@ -8,8 +8,17 @@ const JURISDICTION_STYLES: Record<string, string> = {
 };
 
 export const metadata = {
-  title: "Hillary's Take | Hillary's HR Blog",
-  description: "Practitioner-level commentary on Canadian employment law, HR strategy, and people operations.",
+  title: "Hillary's HR Blog Posts | Canadian Employment Law Updates",
+  description:
+    "Read Hillary's expert perspectives on Canadian employment law, HR compliance, hiring practices, and workplace trends. Curated insights for HR professionals and business leaders.",
+  keywords: ['HR blog', 'employment law Canada', 'HR compliance', 'workplace law'],
+  openGraph: {
+    title: "Hillary's HR Blog Posts",
+    description: 'Expert HR perspectives on Canadian employment law and compliance',
+    url: 'https://hillaryshr.blog/take',
+    siteName: "Hillary's HR Blog",
+    type: 'website',
+  },
 };
 
 export default function TakePage() {
