@@ -20,6 +20,17 @@ export const metadata: Metadata = {
   title: "Hillary's HR Blog - Canadian Employment Law & HR Intelligence",
   description:
     "Daily Canadian employment law and HR updates curated from 7+ sources. AI-summarized and annotated by Hillary.",
+  icons: {
+    icon: [
+      {
+        url: "/favicon.svg",
+        sizes: "any",
+        type: "image/svg+xml",
+      },
+    ],
+    apple: "/favicon.svg",
+  },
+  manifest: "/manifest.json",
   openGraph: {
     title: "Hillary's HR Blog",
     description:
@@ -27,6 +38,7 @@ export const metadata: Metadata = {
     type: "website",
   },
 };
+
 
 export default function RootLayout({
   children,

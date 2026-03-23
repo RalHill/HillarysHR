@@ -1,0 +1,16 @@
+{
+  "name": "Hillary's HR Blog",
+  "short_name": "HR Blog",
+  "description": "Canadian Employment Law & HR Intelligence",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#d63384",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

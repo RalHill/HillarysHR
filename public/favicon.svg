@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <style>
+      .leaf { fill: url(#gradient); }
+    </style>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5b8d1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d63384;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Maple Leaf -->
+  <path class="leaf" d="M50 10 L60 35 L85 30 L68 50 L85 70 L60 65 L50 90 L40 65 L15 70 L32 50 L15 30 L40 35 Z"/>
+</svg>
