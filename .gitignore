@@ -41,3 +41,5 @@ yarn-error.log*
 # agent artifacts
 /mnt/
 /skills-lock.json
+
+.vercel
