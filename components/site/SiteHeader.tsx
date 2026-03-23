@@ -4,6 +4,7 @@ const NAV_LINKS = [
   { label: "All Updates", href: "/" },
   { label: "Hillary's Take", href: "/take" },
   { label: "HR Explained", href: "/hr-explained" },
+  { label: "Useful HR Tools", href: "/tools" },
 ];
 
 export function SiteHeader() {
