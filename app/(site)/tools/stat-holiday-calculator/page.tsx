@@ -23,6 +23,23 @@ const PROVINCE_NAMES: Record<string, string> = {
   PEI:'Prince Edward Island', YT:'Yukon', NT:'Northwest Territories', NU:'Nunavut',
 }
 
+// Province-specific holiday premium rates (multiplier if working on the holiday)
+const PROVINCE_PREMIUMS: Record<string, number> = {
+  ON: 1.5,  // Ontario: 1.5x regular rate OR regular pay + substitute day
+  BC: 2.0,  // BC: 2x regular rate if working
+  AB: 1.5,  // Alberta: 1.5x regular rate if working
+  QC: 1.5,  // Quebec: 1.5x regular rate if working
+  MB: 1.5,  // Manitoba: 1.5x regular rate if working
+  SK: 1.5,  // Saskatchewan: 1.5x regular rate if working
+  NS: 1.5,  // Nova Scotia: 1.5x regular rate if working
+  NB: 1.5,  // New Brunswick: 1.5x regular rate if working
+  NL: 1.5,  // Newfoundland & Labrador: 1.5x regular rate if working
+  PEI: 1.5, // Prince Edward Island: 1.5x regular rate if working
+  YT: 1.5,  // Yukon: 1.5x regular rate if working
+  NT: 1.5,  // Northwest Territories: 1.5x regular rate if working
+  NU: 1.5,  // Nunavut: 1.5x regular rate if working
+}
+
 function formatDate(dateStr: string): string {
   const d = new Date(dateStr + 'T12:00:00')
   return d.toLocaleDateString('en-CA', { weekday:'short', month:'short', day:'numeric' })
@@ -36,10 +53,16 @@ function isWeekend(dateStr: string): boolean {
 export default function StatHolidayCalculator() {
   const [province, setProvince] = useState('ON')
   const [hourlySalary, setHourlySalary] = useState(25)
+  const [isWorking, setIsWorking] = useState(false)
   const [copied, setCopied] = useState(false)
 
   const provHolidays = HOLIDAYS_2026.filter(h => h.provinces.includes(province))
-  const statPayPerDay = hourlySalary * 8
+  const premium = PROVINCE_PREMIUMS[province] || 1.5
+  
+  // Calculate pay based on whether working or not
+  const statPayPerDay = isWorking 
+    ? hourlySalary * 8 * premium
+    : hourlySalary * 8
 
   function copyList() {
     const lines = [
@@ -63,7 +86,7 @@ export default function StatHolidayCalculator() {
       <div style={{ marginBottom: '48px' }}>
         <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#aaa', marginBottom: '16px' }}>Free HR Tool</div>
         <h1 style={{ fontFamily: 'var(--font-newsreader)', fontSize: '48px', fontWeight: 300, color: '#1a1a1a', lineHeight: 1, marginBottom: '16px' }}>Statutory Holiday Pay Calculator</h1>
-        <p style={{ fontSize: '14px', color: '#666', maxWidth: '600px', lineHeight: 1.6 }}>Complete list of 2026 Canadian statutory holidays by province and territory.</p>
+        <p style={{ fontSize: '14px', color: '#666', maxWidth: '600px', lineHeight: 1.6 }}>Complete list of 2026 Canadian statutory holidays by province and territory. Calculate pay based on whether the employee works or doesn&apos;t work the holiday.</p>
       </div>
 
       <div style={{ display:'grid', gridTemplateColumns:'1fr 320px', gap:40, marginBottom:40 }}>
@@ -124,25 +147,40 @@ export default function StatHolidayCalculator() {
           <div style={{ background:'#1a1a1a', borderRadius:8, padding:20, color:'#fff' }}>
             <div style={{ fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'rgba(192, 57, 43, 0.9)', marginBottom:10 }}>Holiday Pay Calculator</div>
 
-            <div>
+            <div style={{ marginBottom:12 }}>
               <label style={{ display:'block', fontSize:11, fontWeight:700, color:'rgba(255,255,255,0.5)', letterSpacing:1, textTransform:'uppercase', marginBottom:6 }}>Hourly Rate</label>
               <input type="number" value={hourlySalary} onChange={e=>setHourlySalary(+e.target.value)} min={17}  step={0.5}
                 style={{ width:'100%', padding:'8px 10px', border:'1px solid rgba(255,255,255,0.2)', borderRadius:4, background:'rgba(255,255,255,0.05)', color:'#fff', fontFamily:'var(--font-roboto)', fontSize:13, outline:'none' }} />
             </div>
 
-            <div style={{ marginTop:12, padding:12, background:'rgba(0,0,0,0.3)', borderRadius:4 }}>
-              <div style={{ fontSize:10, color:'rgba(255,255,255,0.5)', marginBottom:4 }}>Estimated Holiday Pay Per Day (8 hrs)</div>
+            <div style={{ marginBottom:12 }}>
+              <label style={{ display:'block', fontSize:11, fontWeight:700, color:'rgba(255,255,255,0.5)', letterSpacing:1, textTransform:'uppercase', marginBottom:8 }}>Scenario</label>
+              <div style={{ display:'flex', gap:8 }}>
+                {(['not_working', 'working'] as const).map(v => (
+                  <button key={v} onClick={()=>setIsWorking(v === 'working')}
+                    style={{ flex:1, padding:'8px 10px', borderRadius:6, fontSize:11, fontWeight:600, cursor:'pointer', border:'1.5px solid', borderColor: (v === 'working') === isWorking ? 'rgba(192, 57, 43, 0.9)' : 'rgba(255,255,255,0.2)', background: (v === 'working') === isWorking ? 'rgba(192, 57, 43, 0.2)' : 'transparent', color: '#fff' }}>
+                    {v === 'working' ? 'Working' : 'Not Working'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ padding:12, background:'rgba(0,0,0,0.3)', borderRadius:4 }}>
+              <div style={{ fontSize:10, color:'rgba(255,255,255,0.5)', marginBottom:4 }}>Holiday Pay Per Day (8 hrs)</div>
               <div style={{ fontFamily:'var(--font-newsreader)', fontSize:24, fontWeight:600 }}>
                 ${Math.round(statPayPerDay).toLocaleString()}
               </div>
-              <div style={{ fontSize:10, color:'rgba(255,255,255,0.4)', marginTop:4 }}>
+              <div style={{ fontSize:9, color:'rgba(255,255,255,0.3)', marginTop:4 }}>
+                {isWorking ? `${premium}x rate if working` : 'Regular rate if not working'}
+              </div>
+              <div style={{ fontSize:10, color:'rgba(255,255,255,0.4)', marginTop:6 }}>
                 {provHolidays.length} holidays/yr ≈ ${(provHolidays.length * Math.round(statPayPerDay)).toLocaleString()}
               </div>
             </div>
           </div>
 
-          <div style={{ padding:12, background:'#f9f8f6', border:'1px solid #e8e6e1', borderRadius:6, fontSize:11, color:'#aaa' }}>
-            Pay rules vary by province. Verify with your employment standards office.
+          <div style={{ padding:12, background:'#f9f8f6', border:'1px solid #e8e6e1', borderRadius:6, fontSize:10, color:'#666', lineHeight:1.5 }}>
+            <strong>Note:</strong> Rates shown are statutory minimums. Employers may offer higher rates. Rates vary by province and employment agreement.
           </div>
         </div>
       </div>

@@ -2,13 +2,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
+type VacationTier = { years: number; percent: number; days: number }
+
 type Province = {
   name: string
   code: string
-  vacationAfterYear1: number
-  vacationAfterYear5?: number
-  vacationDaysYear1: number
-  vacationDaysYear5?: number
+  vacationTiers: VacationTier[]
   sickDays: number
   sickDaysPaid: number
   personalDays: number
@@ -18,26 +17,32 @@ type Province = {
 }
 
 const PROVINCES: Province[] = [
-  { code:'ON', name:'Ontario', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:3, sickDaysPaid:3, personalDays:3, maternityWeeks:17, parentalWeeks:61, notes:['3 paid sick days under ESA', 'Vacation pay increases to 6% after 5 years'] },
-  { code:'BC', name:'British Columbia', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:5, sickDaysPaid:5, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['5 paid sick days under Employment Standards Act', 'Vacation increases to 6% after 5 years'] },
-  { code:'AB', name:'Alberta', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:0, sickDaysPaid:0, personalDays:0, maternityWeeks:16, parentalWeeks:61, notes:['No mandated paid sick days', 'Vacation increases to 3 weeks after 5 years'] },
-  { code:'QC', name:'Quebec', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:3, sickDaysPaid:2, personalDays:2, maternityWeeks:18, parentalWeeks:52, notes:['2 paid + additional sick days', '3 weeks vacation after 5 years'] },
-  { code:'MB', name:'Manitoba', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:3, sickDaysPaid:3, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['3 paid sick days per year', 'Vacation increases after 5 years'] },
-  { code:'SK', name:'Saskatchewan', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:10, sickDaysPaid:0, personalDays:0, maternityWeeks:18, parentalWeeks:61, notes:['10 days unpaid sick leave', 'Vacation increases after 5 years'] },
-  { code:'NS', name:'Nova Scotia', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:3, sickDaysPaid:3, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['3 paid sick days per year', 'Vacation increases after 5 years'] },
-  { code:'NB', name:'New Brunswick', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:5, sickDaysPaid:5, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['5 paid sick days per year', 'Vacation increases after 5 years'] },
-  { code:'NL', name:'Newfoundland & Labrador', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:7, sickDaysPaid:0, personalDays:3, maternityWeeks:17, parentalWeeks:61, notes:['7 unpaid sick days per year', 'Vacation increases after 5 years'] },
-  { code:'PEI', name:'Prince Edward Island', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:3, sickDaysPaid:1, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['1 paid + 2 unpaid sick days', 'Vacation increases after 5 years'] },
-  { code:'YT', name:'Yukon', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:12, sickDaysPaid:12, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['12 paid sick days per year', 'Most generous in Canada'] },
-  { code:'NT', name:'Northwest Territories', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:0, sickDaysPaid:0, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['No mandated sick days', 'Vacation after 5 years'] },
-  { code:'NU', name:'Nunavut', vacationAfterYear1:4, vacationAfterYear5:6, vacationDaysYear1:10, vacationDaysYear5:15, sickDays:0, sickDaysPaid:0, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['Same as NWT legislation', 'No mandated sick days'] },
+  { code:'ON', name:'Ontario', vacationTiers:[{years:1,percent:4,days:10},{years:5,percent:6,days:15}], sickDays:3, sickDaysPaid:3, personalDays:3, maternityWeeks:17, parentalWeeks:61, notes:['3 paid sick days under ESA', 'Vacation pay increases to 6% after 5 years'] },
+  { code:'BC', name:'British Columbia', vacationTiers:[{years:1,percent:4,days:10},{years:5,percent:6,days:15}], sickDays:5, sickDaysPaid:5, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['5 paid sick days under Employment Standards Act', 'Vacation increases to 6% after 5 years'] },
+  { code:'AB', name:'Alberta', vacationTiers:[{years:1,percent:4,days:10},{years:5,percent:6,days:15}], sickDays:0, sickDaysPaid:0, personalDays:0, maternityWeeks:16, parentalWeeks:61, notes:['No mandated paid sick days', 'Vacation increases to 3 weeks after 5 years'] },
+  { code:'QC', name:'Quebec', vacationTiers:[{years:1,percent:4,days:10},{years:3,percent:5,days:15},{years:10,percent:5.6,days:20}], sickDays:3, sickDaysPaid:2, personalDays:2, maternityWeeks:18, parentalWeeks:52, notes:['2 paid sick days + 1 from year 3', '3 weeks vacation after 3 years, 4 weeks after 10 years'] },
+  { code:'MB', name:'Manitoba', vacationTiers:[{years:1,percent:4,days:10},{years:5,percent:6,days:15},{years:10,percent:8,days:20}], sickDays:3, sickDaysPaid:3, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['3 paid sick days per year', 'Vacation increases after 5 years and again after 10 years'] },
+  { code:'SK', name:'Saskatchewan', vacationTiers:[{years:1,percent:4,days:10},{years:10,percent:6,days:15}], sickDays:10, sickDaysPaid:0, personalDays:0, maternityWeeks:18, parentalWeeks:61, notes:['10 days unpaid sick leave', 'Vacation increases to 4% after 10 years'] },
+  { code:'NS', name:'Nova Scotia', vacationTiers:[{years:1,percent:4,days:10},{years:8,percent:6,days:15}], sickDays:3, sickDaysPaid:3, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['3 paid sick days per year', 'Vacation increases after 8 years'] },
+  { code:'NB', name:'New Brunswick', vacationTiers:[{years:1,percent:4,days:10},{years:8,percent:6,days:15}], sickDays:5, sickDaysPaid:5, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['5 paid sick days per year', 'Vacation increases after 8 years'] },
+  { code:'NL', name:'Newfoundland & Labrador', vacationTiers:[{years:1,percent:4,days:10},{years:15,percent:6,days:15}], sickDays:7, sickDaysPaid:0, personalDays:3, maternityWeeks:17, parentalWeeks:61, notes:['7 unpaid sick days per year', 'Vacation increases after 15 years (one of the longer thresholds)'] },
+  { code:'PEI', name:'Prince Edward Island', vacationTiers:[{years:1,percent:4,days:10},{years:8,percent:6,days:15}], sickDays:3, sickDaysPaid:1, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['1 paid + 2 unpaid sick days', 'Vacation increases after 8 years'] },
+  { code:'YT', name:'Yukon', vacationTiers:[{years:1,percent:4,days:10},{years:5,percent:6,days:15}], sickDays:12, sickDaysPaid:12, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['12 paid sick days per year', 'Most generous in Canada'] },
+  { code:'NT', name:'Northwest Territories', vacationTiers:[{years:1,percent:4,days:10},{years:3,percent:6,days:15}], sickDays:0, sickDaysPaid:0, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['No mandated sick days', 'Vacation increases to 3 weeks after 3 years'] },
+  { code:'NU', name:'Nunavut', vacationTiers:[{years:1,percent:4,days:10},{years:3,percent:6,days:15}], sickDays:0, sickDaysPaid:0, personalDays:0, maternityWeeks:17, parentalWeeks:61, notes:['Same as NWT legislation', 'Vacation increases after 3 years'] },
 ]
 
 function getVacationEntitlement(p: Province, yearsOfService: number): { percent: number; days: number } {
-  if (yearsOfService >= 5 && p.vacationAfterYear5) {
-    return { percent: p.vacationAfterYear5, days: p.vacationDaysYear5! }
+  // Find the highest tier that applies to the years of service
+  let applicable = p.vacationTiers[0]
+  for (const tier of p.vacationTiers) {
+    if (yearsOfService >= tier.years) {
+      applicable = tier
+    } else {
+      break
+    }
   }
-  return { percent: p.vacationAfterYear1, days: p.vacationDaysYear1 }
+  return { percent: applicable.percent, days: applicable.days }
 }
 
 export default function PTOCalculator() {

@@ -87,7 +87,7 @@ export default function BooleanGenerator() {
   const [exclude, setExclude] = useState<string[]>(ROLE_TEMPLATES['Recruiter / Talent Acquisition'].exclude)
   const [location, setLocation] = useState('Toronto, ON')
   const [platform, setPlatform] = useState('LinkedIn')
-  const [mustHaveAll] = useState(false)
+  const [mustHaveAll, setMustHaveAll] = useState(false)
   const [copied, setCopied] = useState(false)
   
   const titleInputRef = useRef<HTMLInputElement>(null)
@@ -145,7 +145,16 @@ export default function BooleanGenerator() {
           </div>
 
           <div>
-            <label style={{ display:'block', fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'#aaa', marginBottom:10 }}>Skills / Keywords</label>
+            <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:10 }}>
+              <label style={{ fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'#aaa' }}>Skills / Keywords</label>
+              <div style={{ display:'flex', alignItems:'center', gap:8, fontSize:12 }}>
+                <span style={{ color:'#aaa' }}>Must have all</span>
+                <button onClick={() => setMustHaveAll(v => !v)}
+                  style={{ width:40, height:22, borderRadius:11, background: mustHaveAll ? '#1a1a1a' : '#ddd', border:'none', cursor:'pointer', position:'relative', transition:'background .2s' }}>
+                  <span style={{ position:'absolute', top:3, left: mustHaveAll ? 20 : 2, width:16, height:16, borderRadius:'50%', background:'white', transition:'left .2s' }} />
+                </button>
+              </div>
+            </div>
             <div style={{ display:'flex', flexWrap:'wrap', gap:8, minHeight:40 }}>
               {skills.map(s => <Tag key={s} val={s} arr={skills} set={setSkills} />)}
             </div>

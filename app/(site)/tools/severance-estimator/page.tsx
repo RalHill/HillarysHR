@@ -21,13 +21,29 @@ function esaSeverance(years: number, qualifies: boolean): number {
 }
 
 function commonLawMonths(years: number, age: number, empType: EmploymentType, isManager: boolean): { low: number; high: number } {
-  let base = years
-  if (age >= 50) base *= 1.3
-  else if (age >= 40) base *= 1.15
-  if (isManager) base *= 1.2
-  if (empType === 'executive') base *= 1.4
-  const low = Math.round(Math.max(1, base * 0.75) * 10) / 10
-  const high = Math.round(Math.min(24, base * 1.4) * 10) / 10
+  // Conservative Bardal approach: additive, not multiplicative
+  let months = years  // Base: 1 month per year of service
+  
+  // Age factor (additive)
+  if (age >= 50) {
+    months += 4
+  } else if (age >= 40) {
+    months += 2
+  }
+  
+  // Role factor (additive)
+  if (empType === 'executive') {
+    months += 6
+  } else if (isManager) {
+    months += 3
+  }
+  
+  // Calculate range with realistic bounds
+  // Low estimate: months minus 25%, high estimate: months plus 40%
+  const low = Math.round(Math.max(1, months * 0.75) * 10) / 10
+  // Cap high end at 24 months (typical for most cases without exceptional circumstances)
+  const high = Math.round(Math.min(24, months * 1.4) * 10) / 10
+  
   return { low, high }
 }
 
@@ -145,7 +161,8 @@ export default function SeveranceEstimator() {
 
             {/* Common Law */}
             <div style={{ background:'#1a1a1a', borderRadius:8, padding:20, color:'#fff' }}>
-              <div style={{ fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'rgba(192, 57, 43, 0.9)', marginBottom:12 }}>Common Law Range (Without Limitation Clause)</div>
+              <div style={{ fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'rgba(192, 57, 43, 0.9)', marginBottom:4 }}>Common Law Range (Without Limitation Clause)</div>
+              <div style={{ fontSize:10, color:'rgba(255,255,255,0.4)', marginBottom:12 }}>Assumes no valid limiting/severance clause in the employment contract</div>
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
                 <div>
                   <div style={{ fontSize:11, color:'rgba(255,255,255,0.5)', marginBottom:4 }}>Low Estimate</div>
@@ -159,8 +176,17 @@ export default function SeveranceEstimator() {
             </div>
           </div>
 
-          <div style={{ padding:12, background:'#fff3cd', border:'1px solid #f59e0b', borderRadius:6, fontSize:11, color:'#7d5a00', lineHeight:1.5 }}>
-            <strong>Disclaimer:</strong> This is an estimate only based on Ontario law. Actual severance depends on many factors. Consult an employment lawyer before making offers.
+          <div style={{ padding:12, background:'#fff3cd', border:'1px solid #f59e0b', borderRadius:6, fontSize:11, color:'#7d5a00', lineHeight:1.6 }}>
+            <strong>Important Disclaimer:</strong> This tool provides rough estimates only and should NOT be relied upon for actual employment decisions. Common law severance varies significantly based on:
+            <ul style={{ margin:'6px 0 0 18px', paddingLeft:0 }}>
+              <li>Job market conditions in the industry and geographic location</li>
+              <li>Difficulty finding comparable work (character of employment)</li>
+              <li>Negotiating power of the parties</li>
+              <li>Specific facts of the termination (cause, circumstances)</li>
+              <li>Validity and enforceability of any limitation clause in the contract</li>
+              <li>Individual court jurisdiction and presiding judge</li>
+            </ul>
+            <strong style={{ display:'block', marginTop:6 }}>Always consult a qualified Ontario employment lawyer before structuring a severance offer.</strong>
           </div>
         </div>
       </div>
