@@ -68,6 +68,12 @@ export function SiteFooter() {
         >
           HR Explained
         </Link>
+        <Link
+          href="/tools"
+          style={{ color: "#888", textDecoration: "none" }}
+        >
+          Useful HR Tools
+        </Link>
         <a
           href="https://linkedin.com/in/hillary-chukwu-"
           target="_blank"

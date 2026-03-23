@@ -69,7 +69,7 @@ export default function ToolsPage() {
             lineHeight: 1.6,
           }}
         >
-          Canadian HR calculators, search builders, and compliance tools. No sign-in, no AI, no gating — just practical logic for practitioners.
+          Canadian HR calculators, search builders, and compliance tools. Practical logic for practitioners.
         </p>
       </div>
 
