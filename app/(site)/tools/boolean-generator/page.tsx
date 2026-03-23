@@ -89,6 +89,9 @@ export default function BooleanGenerator() {
   const [platform, setPlatform] = useState('LinkedIn')
   const [mustHaveAll, setMustHaveAll] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [titleInput, setTitleInput] = useState('')
+  const [skillInput, setSkillInput] = useState('')
+  const [excludeInput, setExcludeInput] = useState('')
   
   const titleInputRef = useRef<HTMLInputElement>(null)
   const skillInputRef = useRef<HTMLInputElement>(null)
@@ -102,6 +105,9 @@ export default function BooleanGenerator() {
     setTitles([...tmpl.titles])
     setSkills([...tmpl.skills])
     setExclude([...tmpl.exclude])
+    setTitleInput('')
+    setSkillInput('')
+    setExcludeInput('')
   }
 
   function copy() {
@@ -141,7 +147,7 @@ export default function BooleanGenerator() {
             <div style={{ display:'flex', flexWrap:'wrap', gap:8, minHeight:40 }}>
               {titles.map(t => <Tag key={t} val={t} arr={titles} set={setTitles} />)}
             </div>
-            <AddInput val={''} set={() => {}} arr={titles} setArr={setTitles} placeholder="Add a job title..." inputRef={titleInputRef} />
+            <AddInput val={titleInput} set={setTitleInput} arr={titles} setArr={setTitles} placeholder="Add a job title..." inputRef={titleInputRef} />
           </div>
 
           <div>
@@ -158,7 +164,7 @@ export default function BooleanGenerator() {
             <div style={{ display:'flex', flexWrap:'wrap', gap:8, minHeight:40 }}>
               {skills.map(s => <Tag key={s} val={s} arr={skills} set={setSkills} />)}
             </div>
-            <AddInput val={''} set={() => {}} arr={skills} setArr={setSkills} placeholder="Add a skill..." inputRef={skillInputRef} />
+            <AddInput val={skillInput} set={setSkillInput} arr={skills} setArr={setSkills} placeholder="Add a skill..." inputRef={skillInputRef} />
           </div>
 
           <div>
@@ -166,7 +172,7 @@ export default function BooleanGenerator() {
             <div style={{ display:'flex', flexWrap:'wrap', gap:8, minHeight:40 }}>
               {exclude.map(e => <Tag key={e} val={e} arr={exclude} set={setExclude} />)}
             </div>
-            <AddInput val={''} set={() => {}} arr={exclude} setArr={setExclude} placeholder="Add term to exclude..." inputRef={excludeInputRef} />
+            <AddInput val={excludeInput} set={setExcludeInput} arr={exclude} setArr={setExclude} placeholder="Add term to exclude..." inputRef={excludeInputRef} />
           </div>
 
           <div>
