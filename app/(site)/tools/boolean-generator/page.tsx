@@ -42,7 +42,7 @@ function buildBoolean(
     ? `(${skills.map(quote).join(skillsJoin)})`
     : ''
 
-  let excludeStr = exclude.length
+  const excludeStr = exclude.length
     ? exclude.map(e => `-${quote(e)}`).join(' ')
     : ''
 
@@ -87,7 +87,7 @@ export default function BooleanGenerator() {
   const [exclude, setExclude] = useState<string[]>(ROLE_TEMPLATES['Recruiter / Talent Acquisition'].exclude)
   const [location, setLocation] = useState('Toronto, ON')
   const [platform, setPlatform] = useState('LinkedIn')
-  const [mustHaveAll, setMustHaveAll] = useState(false)
+  const [mustHaveAll] = useState(false)
   const [copied, setCopied] = useState(false)
   
   const titleInputRef = useRef<HTMLInputElement>(null)
