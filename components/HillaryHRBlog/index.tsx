@@ -397,7 +397,7 @@ export default function HillaryHRBlog({ items }: HillaryHRBlogProps) {
               {filtered.length} update{filtered.length !== 1 ? "s" : ""}
               {selectedTopics.length > 0 || selectedProvinces.length > 0
                 ? " (filtered)"
-                : " this week"}
+                : " available"}
             </p>
 
             <div
