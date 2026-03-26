@@ -153,10 +153,17 @@ export async function POST(req: NextRequest) {
   });
 }
 
-// Also allow GET for easy manual testing in browser (with secret in query param)
+// GET: Vercel Cron invokes this path with GET and Authorization: Bearer <CRON_SECRET>
+// (see https://vercel.com/docs/cron-jobs/manage-cron-jobs#securing-cron-jobs).
+// Also allow ?secret= for manual browser testing.
 export async function GET(req: NextRequest) {
-  const secret = req.nextUrl.searchParams.get("secret");
-  if (secret !== process.env.CRON_SECRET) {
+  const auth = req.headers.get("authorization");
+  const expectedBearer = `Bearer ${process.env.CRON_SECRET}`;
+  const querySecret = req.nextUrl.searchParams.get("secret");
+  const ok =
+    auth === expectedBearer ||
+    (querySecret != null && querySecret === process.env.CRON_SECRET);
+  if (!ok) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   // Reuse POST logic via a fake request
