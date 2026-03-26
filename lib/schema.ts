@@ -12,7 +12,7 @@ export function generateOrganizationSchema() {
       contactType: 'Customer Service',
     },
     description:
-      'Daily Canadian employment law and HR updates curated from 7+ sources, AI-summarized and annotated by Hillary Chukwu.',
+      'Daily Canadian employment law and HR updates curated from 6 sources, AI-summarized and annotated by Hillary Chukwu.',
   }
 }
 

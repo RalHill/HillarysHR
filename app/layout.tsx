@@ -20,7 +20,7 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   title: "Hillary's HR Blog - Canadian Employment Law & HR Intelligence",
   description:
-    "Daily Canadian employment law and HR updates curated from 7+ sources. AI-summarized and annotated by Hillary.",
+    "Daily Canadian employment law and HR updates curated from 6 sources. AI-summarized and annotated by Hillary.",
   icons: {
     icon: [
       {

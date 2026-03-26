@@ -53,13 +53,6 @@ export const RSS_SOURCES: RSSSource[] = [
     topics: ["Termination", "Harassment", "Accommodation", "Hiring"],
   },
   {
-    name: "Osler - Employment & Labour Blog",
-    short: "Osler",
-    url: "https://www.osler.com/en/feed/",
-    provinces: ["Federal", "ON", "BC", "AB", "QC"],
-    topics: ["Policy", "Health & Safety", "Leaves", "Compensation"],
-  },
-  {
     name: "Ogletree Deakins Canada",
     short: "Ogletree",
     url: "https://ogletree.ca/feed/",

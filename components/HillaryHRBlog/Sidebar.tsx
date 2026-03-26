@@ -220,7 +220,7 @@ export function Sidebar({ items }: { items: NewsItem[] }) {
             margin: "0 0 8px 0",
           }}
         >
-          Curated daily from 7+ Canadian employment law and HR sources. AI
+          Curated daily from 6 Canadian employment law and HR sources. AI
           summaries reviewed and annotated by{" "}
           <a
             href="https://linkedin.com/in/hillary-chukwu-"
