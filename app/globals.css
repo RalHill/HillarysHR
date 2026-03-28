@@ -18,3 +18,17 @@ body {
   color: var(--foreground);
   background: var(--background);
 }
+
+/* Tool forms: explicit field colors (do not inherit body --foreground in dark mode) */
+input {
+  color: #111111;
+  background-color: #ffffff;
+}
+
+input::placeholder {
+  color: #9ca3af;
+}
+
+input[type="range"] {
+  background-color: transparent;
+}

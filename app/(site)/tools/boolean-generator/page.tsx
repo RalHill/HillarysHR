@@ -71,7 +71,7 @@ const AddInput = ({ val, set, arr, setArr, placeholder, inputRef }: { val: strin
       onChange={e => set(e.target.value)}
       onKeyDown={e => { if (e.key === 'Enter' && val.trim() && !arr.includes(val.trim())) { setArr([...arr, val.trim()]); set('') } }}
       placeholder={placeholder}
-      style={{ flex:1, padding:'8px 12px', border:'1.5px solid #ddd', borderRadius:6, fontFamily:'var(--font-roboto)',fontSize:13, background:'#fff', outline:'none' }}
+      style={{ flex:1, padding:'8px 12px', border:'1.5px solid #ddd', borderRadius:6, fontFamily:'var(--font-roboto)', fontSize:13, background:'#ffffff', color:'#111111', outline:'none' }}
     />
     <button
       onClick={() => { if (val.trim() && !arr.includes(val.trim())) { setArr([...arr, val.trim()]); set(''); inputRef.current?.focus() } }}
@@ -205,7 +205,7 @@ export default function BooleanGenerator() {
             <label style={{ display:'block', fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'#aaa', marginBottom:8 }}>Location</label>
             <input value={location} onChange={e => setLocation(e.target.value)}
               placeholder="e.g. Toronto, ON"
-              style={{ width:'100%', padding:'10px 14px', border:'1.5px solid #ddd', borderRadius:6, fontFamily:'var(--font-roboto)', fontSize:13, background:'#fff', outline:'none' }} />
+              style={{ width:'100%', padding:'10px 14px', border:'1.5px solid #ddd', borderRadius:6, fontFamily:'var(--font-roboto)', fontSize:13, background:'#ffffff', color:'#111111', outline:'none' }} />
           </div>
 
           <div>

@@ -129,7 +129,7 @@ export default function PTOCalculator() {
           <div>
             <label style={{ display:'block', fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'#aaa', marginBottom:8 }}>Annual Salary</label>
             <input type="number" value={salary} onChange={e=>setSalary(+e.target.value)} min={0} step={1000}
-              style={{ width:'100%', padding:'10px 12px', border:'1.5px solid #ddd', borderRadius:6, fontFamily:'var(--font-roboto)', fontSize:13, outline:'none' }} />
+              style={{ width:'100%', padding:'10px 12px', border:'1.5px solid #ddd', borderRadius:6, fontFamily:'var(--font-roboto)', fontSize:13, outline:'none', color:'#111111', backgroundColor:'#ffffff' }} />
           </div>
 
           <button onClick={copyResults} style={{ padding:'10px 14px', background: copied ? '#27ae60' : '#c0392b', color:'#fff', border:'none', borderRadius:6, cursor:'pointer', fontWeight:600, fontSize:12, marginTop:'auto' }}>{copied ? '✓ Copied' : 'Copy Summary'}</button>

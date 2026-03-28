@@ -175,8 +175,8 @@ export default function StatHolidayCalculator() {
 
             <div style={{ marginBottom:12 }}>
               <label style={{ display:'block', fontSize:11, fontWeight:700, color:'rgba(255,255,255,0.5)', letterSpacing:1, textTransform:'uppercase', marginBottom:6 }}>Hourly Rate</label>
-              <input type="number" value={hourlySalary} onChange={e=>setHourlySalary(+e.target.value)} min={17}  step={0.5}
-                style={{ width:'100%', padding:'8px 10px', border:'1px solid rgba(255,255,255,0.2)', borderRadius:4, background:'rgba(255,255,255,0.05)', color:'#fff', fontFamily:'var(--font-roboto)', fontSize:13, outline:'none' }} />
+              <input type="number" value={hourlySalary} onChange={e=>setHourlySalary(+e.target.value)} min={17} step={0.5}
+                style={{ width:'100%', padding:'8px 10px', border:'1px solid #d1d5db', borderRadius:4, background:'#f9f9f9', color:'#111111', fontFamily:'var(--font-roboto)', fontSize:13, outline:'none' }} />
             </div>
 
             <div style={{ marginBottom:12 }}>

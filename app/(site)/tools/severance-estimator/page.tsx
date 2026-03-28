@@ -121,7 +121,7 @@ export default function SeveranceEstimator() {
           <div>
             <label style={{ display:'block', fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'#aaa', marginBottom:8 }}>Salary</label>
             <input type="number" value={salary} onChange={e=>setSalary(+e.target.value)} min={0} step={1000}
-              style={{ width:'100%', padding:'10px 12px', border:'1.5px solid #ddd', borderRadius:6, fontFamily:'var(--font-roboto)', fontSize:13, outline:'none' }} />
+              style={{ width:'100%', padding:'10px 12px', border:'1.5px solid #ddd', borderRadius:6, fontFamily:'var(--font-roboto)', fontSize:13, outline:'none', color:'#111111', backgroundColor:'#ffffff' }} />
           </div>
 
           <div>
