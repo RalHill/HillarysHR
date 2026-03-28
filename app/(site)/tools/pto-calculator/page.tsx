@@ -87,31 +87,32 @@ export default function PTOCalculator() {
   }
 
   const Card = ({ title, val, sub }: { title: string; val: string; sub?: string }) => (
-    <div style={{ background: '#fff', border:'1px solid #e8e6e1', borderRadius:8, padding:'20px' }}>
+    <div className="tool-card-elevated" style={{ padding:'20px' }}>
       <div style={{ fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'#aaa', marginBottom:8 }}>{title}</div>
-      <div style={{ fontFamily:'var(--font-newsreader)', fontSize:28, fontWeight:600, color:'#1a1a1a', lineHeight:1 }}>{val}</div>
+      <div className="tool-result-value" style={{ fontSize: 'clamp(1.35rem, 5vw, 1.75rem)', lineHeight:1.15 }}>{val}</div>
       {sub && <div style={{ fontSize:11, color:'#666', marginTop:6 }}>{sub}</div>}
     </div>
   )
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '48px 32px 80px' }}>
+    <div className="tool-page">
+      <div className="tool-page-inner">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Header */}
       <div style={{ marginBottom: '48px' }}>
         <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#aaa', marginBottom: '16px' }}>Free HR Tool</div>
-        <h1 style={{ fontFamily: 'var(--font-newsreader)', fontSize: '48px', fontWeight: 300, color: '#1a1a1a', lineHeight: 1, marginBottom: '16px' }}>PTO & Leave Calculator</h1>
+        <h1 className="tool-h1">PTO & Leave Calculator</h1>
         <p style={{ fontSize: '14px', color: '#666', maxWidth: '600px', lineHeight: 1.6 }}>Model vacation and leave entitlements across all 13 Canadian jurisdictions.</p>
       </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'300px 1fr', gap:40, marginBottom:40 }}>
+      <div className="tool-main-grid tool-main-grid--split-narrow">
 
         {/* INPUTS */}
         <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
           <div>
             <label style={{ display:'block', fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'#aaa', marginBottom:10 }}>Province</label>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:6 }}>
+            <div className="tool-province-grid">
               {PROVINCES.map(p => (
                 <button key={p.code} onClick={()=>setProvince(p.code)}
                   style={{ padding:'8px 10px', borderRadius:6, fontSize:11, fontWeight:600, cursor:'pointer', textAlign:'left', border:'1.5px solid', borderColor: province===p.code ? '#1a1a1a' : '#ddd', background: province===p.code ? '#1a1a1a' : '#fff', color: province===p.code ? '#fff' : '#1a1a1a', transition:'all .15s' }}>
@@ -139,14 +140,14 @@ export default function PTOCalculator() {
         <div>
           <div style={{ marginBottom:20 }}>
             <div style={{ fontFamily:'var(--font-newsreader)', fontSize:18, fontWeight:600, color:'#1a1a1a', marginBottom:12 }}>{prov.name} — {years} Year{years!==1?'s':''}</div>
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:12 }}>
+            <div className="tool-results-row tool-results-row--3">
               <Card title="Vacation Days" val={`${vacDays} days`} sub={`${vacPct}% of wages`} />
               <Card title="Vacation Pay" val={`$${vacPayDollars.toLocaleString()}`} sub={`From $${salary.toLocaleString()}`} />
               <Card title="Sick Days" val={`${prov.sickDays}`} sub={`${prov.sickDaysPaid} paid`} />
             </div>
           </div>
 
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:12, marginBottom:20 }}>
+          <div className="tool-results-row tool-results-row--3" style={{ marginBottom:20 }}>
             <Card title="Personal Days" val={`${prov.personalDays}`} />
             <Card title="Maternity" val={`${prov.maternityWeeks} wks`} />
             <Card title="Parental" val={`${prov.parentalWeeks} wks`} />
@@ -164,8 +165,9 @@ export default function PTOCalculator() {
       </div>
 
       {/* Footer */}
-      <div style={{ maxWidth:'600px', margin:'0 auto', padding:'24px', background:'#f9f8f6', border:'1px solid #e8e6e1', borderRadius:8, textAlign:'center', fontSize:'12px', color:'#aaa' }}>
+      <div style={{ maxWidth:'600px', margin:'0 auto', padding:'24px', background:'#ffffff', border:'1px solid #e8e6e1', borderRadius:8, textAlign:'center', fontSize:'12px', color:'#aaa' }}>
         <Link href="/tools" style={{ color:'#c0392b', textDecoration:'none', fontWeight:600 }}>← Back to Tools</Link>
+      </div>
       </div>
     </div>
   )

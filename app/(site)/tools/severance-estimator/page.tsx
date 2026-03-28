@@ -99,17 +99,18 @@ export default function SeveranceEstimator() {
   }
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '48px 32px 80px' }}>
+    <div className="tool-page">
+      <div className="tool-page-inner">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Header */}
       <div style={{ marginBottom: '48px' }}>
         <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#aaa', marginBottom: '16px' }}>Free HR Tool • Ontario Only</div>
-        <h1 style={{ fontFamily: 'var(--font-newsreader)', fontSize: '48px', fontWeight: 300, color: '#1a1a1a', lineHeight: 1, marginBottom: '16px' }}>Severance Pay Estimator</h1>
+        <h1 className="tool-h1">Severance Pay Estimator</h1>
         <p style={{ fontSize: '14px', color: '#666', maxWidth: '600px', lineHeight: 1.6 }}>Estimate Ontario ESA minimum severance pay and common law range for termination without cause.</p>
       </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'380px 1fr', gap:40, marginBottom:40 }}>
+      <div className="tool-main-grid tool-main-grid--split-wide">
 
         {/* INPUTS */}
         <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
@@ -165,38 +166,38 @@ export default function SeveranceEstimator() {
             <div style={{ fontFamily:'var(--font-newsreader)', fontSize:18, fontWeight:600, color:'#1a1a1a', marginBottom:16 }}>Severance Estimate</div>
 
             {/* ESA */}
-            <div style={{ background:'#fff', border:'1px solid #e8e6e1', borderRadius:8, padding:20, marginBottom:20 }}>
+            <div className="tool-card-elevated" style={{ padding:20, marginBottom:20 }}>
               <div style={{ fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'#aaa', marginBottom:12 }}>ESA Minimums</div>
               <div style={{ display:'flex', justifyContent:'space-between', paddingBottom:12, borderBottom:'1px solid #e8e6e1', marginBottom:12 }}>
                 <div>
                   <div style={{ fontSize:12, color:'#666' }}>Termination Notice</div>
                 </div>
-                <div style={{ fontFamily:'var(--font-newsreader)', fontSize:16, fontWeight:600, color:'#1a1a1a' }}>${Math.round(noticePay).toLocaleString()}</div>
+                <div className="tool-result-value" style={{ fontSize:16 }}>${Math.round(noticePay).toLocaleString()}</div>
               </div>
               <div style={{ display:'flex', justifyContent:'space-between', paddingBottom:12, borderBottom:'1px solid #e8e6e1', marginBottom:12 }}>
                 <div>
                   <div style={{ fontSize:12, color:'#666' }}>ESA Severance</div>
                 </div>
-                <div style={{ fontFamily:'var(--font-newsreader)', fontSize:16, fontWeight:600, color:'#1a1a1a' }}>${Math.round(severancePay).toLocaleString()}</div>
+                <div className="tool-result-value" style={{ fontSize:16 }}>${Math.round(severancePay).toLocaleString()}</div>
               </div>
-              <div style={{ display:'flex', justifyContent:'space-between' }}>
-                <div style={{ fontWeight:600, color:'#1a1a1a' }}>ESA Total</div>
-                <div style={{ fontFamily:'var(--font-newsreader)', fontSize:22, fontWeight:600, color:'#1a1a1a' }}>${Math.round(esaTotal).toLocaleString()}</div>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline' }}>
+                <div style={{ fontWeight:600, color:'#111111' }}>ESA Total</div>
+                <div className="tool-result-value-xl">${Math.round(esaTotal).toLocaleString()}</div>
               </div>
             </div>
 
             {/* Common Law */}
-            <div style={{ background:'#1a1a1a', borderRadius:8, padding:20, color:'#fff' }}>
-              <div style={{ fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'rgba(192, 57, 43, 0.9)', marginBottom:4 }}>Common Law Range (Without Limitation Clause)</div>
-              <div style={{ fontSize:10, color:'rgba(255,255,255,0.4)', marginBottom:12 }}>Assumes no valid limiting/severance clause in the employment contract</div>
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+            <div className="tool-card-elevated" style={{ padding:20 }}>
+              <div className="tool-accent-label" style={{ marginBottom:4 }}>Common Law Range (Without Limitation Clause)</div>
+              <div style={{ fontSize:11, color:'#666', marginBottom:14 }}>Assumes no valid limiting/severance clause in the employment contract</div>
+              <div style={{ display:'grid', gridTemplateColumns:'repeat(2, minmax(0,1fr))', gap:12 }}>
                 <div>
-                  <div style={{ fontSize:11, color:'rgba(255,255,255,0.5)', marginBottom:4 }}>Low Estimate</div>
-                  <div style={{ fontFamily:'var(--font-newsreader)', fontSize:22, fontWeight:600 }}>${Math.round(commonLawLow).toLocaleString()}</div>
+                  <div style={{ fontSize:11, color:'#666', marginBottom:4 }}>Low Estimate</div>
+                  <div className="tool-result-value-xl">${Math.round(commonLawLow).toLocaleString()}</div>
                 </div>
                 <div>
-                  <div style={{ fontSize:11, color:'rgba(255,255,255,0.5)', marginBottom:4 }}>High Estimate</div>
-                  <div style={{ fontFamily:'var(--font-newsreader)', fontSize:22, fontWeight:600 }}>${Math.round(commonLawHigh).toLocaleString()}</div>
+                  <div style={{ fontSize:11, color:'#666', marginBottom:4 }}>High Estimate</div>
+                  <div className="tool-result-value-xl">${Math.round(commonLawHigh).toLocaleString()}</div>
                 </div>
               </div>
             </div>
@@ -218,8 +219,9 @@ export default function SeveranceEstimator() {
       </div>
 
       {/* Footer */}
-      <div style={{ maxWidth:'600px', margin:'0 auto', padding:'24px', background:'#f9f8f6', border:'1px solid #e8e6e1', borderRadius:8, textAlign:'center', fontSize:'12px', color:'#aaa' }}>
+      <div style={{ maxWidth:'600px', margin:'0 auto', padding:'24px', background:'#ffffff', border:'1px solid #e8e6e1', borderRadius:8, textAlign:'center', fontSize:'12px', color:'#aaa' }}>
         <Link href="/tools" style={{ color:'#c0392b', textDecoration:'none', fontWeight:600 }}>← Back to Tools</Link>
+      </div>
       </div>
     </div>
   )

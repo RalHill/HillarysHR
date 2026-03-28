@@ -64,18 +64,19 @@ const Tag = ({ val, arr, set }: { val: string; arr: string[]; set: (v: string[])
 )
 
 const AddInput = ({ val, set, arr, setArr, placeholder, inputRef }: { val: string; set: (v:string)=>void; arr: string[]; setArr: (v:string[])=>void; placeholder: string; inputRef: React.RefObject<HTMLInputElement | null> }) => (
-  <div style={{ display:'flex', gap:8, marginTop:8 }}>
+  <div className="tool-add-row">
     <input
       ref={inputRef}
       value={val}
       onChange={e => set(e.target.value)}
       onKeyDown={e => { if (e.key === 'Enter' && val.trim() && !arr.includes(val.trim())) { setArr([...arr, val.trim()]); set('') } }}
       placeholder={placeholder}
-      style={{ flex:1, padding:'8px 12px', border:'1.5px solid #ddd', borderRadius:6, fontFamily:'var(--font-roboto)', fontSize:13, background:'#ffffff', color:'#111111', outline:'none' }}
+      style={{ padding:'8px 12px', border:'1.5px solid #ddd', borderRadius:6, fontFamily:'var(--font-roboto)', fontSize:13, background:'#ffffff', color:'#111111', outline:'none' }}
     />
     <button
+      type="button"
       onClick={() => { if (val.trim() && !arr.includes(val.trim())) { setArr([...arr, val.trim()]); set(''); inputRef.current?.focus() } }}
-      style={{ padding:'8px 14px', background:'#1a1a1a', color:'#fff', border:'none', borderRadius:6, cursor:'pointer', fontWeight:600, fontSize:13 }}
+      style={{ padding:'8px 14px', background:'#1a1a1a', color:'#fff', border:'none', borderRadius:6, cursor:'pointer', fontWeight:600, fontSize:13, flexShrink:0 }}
     >Add</button>
   </div>
 )
@@ -141,17 +142,18 @@ export default function BooleanGenerator() {
   }
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '48px 32px 80px' }}>
+    <div className="tool-page">
+      <div className="tool-page-inner">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Header */}
       <div style={{ marginBottom: '48px' }}>
         <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#aaa', marginBottom: '16px' }}>Free HR Tool</div>
-        <h1 style={{ fontFamily: 'var(--font-newsreader)', fontSize: '48px', fontWeight: 300, color: '#1a1a1a', lineHeight: 1, marginBottom: '16px' }}>Boolean String Generator</h1>
+        <h1 className="tool-h1">Boolean String Generator</h1>
         <p style={{ fontSize: '14px', color: '#666', maxWidth: '600px', lineHeight: 1.6 }}>Build precision search strings for LinkedIn, ATS, and Google X-Ray. Select a role template or build from scratch.</p>
       </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:40, marginBottom:40 }}>
+      <div className="tool-main-grid tool-main-grid--boolean">
 
         {/* LEFT: CONFIG */}
         <div style={{ display:'flex', flexDirection:'column', gap:24 }}>
@@ -222,27 +224,28 @@ export default function BooleanGenerator() {
         </div>
 
         {/* RIGHT: OUTPUT */}
-        <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
-          <div style={{ background:'#1a1a1a', borderRadius:12, padding:24, position:'sticky', top:20 }}>
-            <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:16 }}>
+        <div style={{ display:'flex', flexDirection:'column', gap:20, minWidth:0 }}>
+          <div className="tool-card-elevated tool-boolean-sticky" style={{ padding:24 }}>
+            <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:16, flexWrap:'wrap', gap:12 }}>
               <div>
-                <div style={{ fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'rgba(192, 57, 43, 0.9)', marginBottom:4 }}>Generated String</div>
-                <div style={{ fontSize:13, color:'rgba(100,100,100,0.7)' }}>{platform}</div>
+                <div className="tool-accent-label" style={{ marginBottom:4 }}>Generated String</div>
+                <div style={{ fontSize:13, color:'#666' }}>{platform}</div>
               </div>
-              <button onClick={copy} style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 14px', background: copied ? '#c0392b' : '#c0392b', color:'#fff', border:'none', borderRadius:6, cursor:'pointer', fontWeight:700, fontSize:12, transition:'all .2s' }}>
+              <button type="button" onClick={copy} style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 14px', background:'#c0392b', color:'#fff', border:'none', borderRadius:6, cursor:'pointer', fontWeight:700, fontSize:12, transition:'all .2s' }}>
                 {copied ? '✓ Copied' : 'Copy'}
               </button>
             </div>
-            <div style={{ background:'rgba(0,0,0,0.3)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:8, padding:16, fontFamily:'monospace', fontSize:12, color:'#fff', lineHeight:1.6, wordBreak:'break-word', minHeight:100 }}>
-              {result || <span style={{ color:'rgba(255,255,255,0.3)' }}>Add titles and skills to generate your string.</span>}
+            <div className="tool-output-mono">
+              {result || <span className="tool-output-mono-placeholder">Add titles and skills to generate your string.</span>}
             </div>
           </div>
         </div>
       </div>
 
       {/* Footer */}
-      <div style={{ maxWidth:'600px', margin:'0 auto', padding:'24px', background:'#f9f8f6', border:'1px solid #e8e6e1', borderRadius:8, textAlign:'center', fontSize:'12px', color:'#aaa' }}>
+      <div style={{ maxWidth:'600px', margin:'0 auto', padding:'24px', background:'#ffffff', border:'1px solid #e8e6e1', borderRadius:8, textAlign:'center', fontSize:'12px', color:'#aaa' }}>
         <Link href="/tools" style={{ color:'#c0392b', textDecoration:'none', fontWeight:600 }}>← Back to Tools</Link>
+      </div>
       </div>
     </div>
   )

@@ -105,17 +105,18 @@ export default function StatHolidayCalculator() {
   const weekendHolidays = provHolidays.filter(h => isWeekend(h.date))
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '48px 32px 80px' }}>
+    <div className="tool-page">
+      <div className="tool-page-inner">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Header */}
       <div style={{ marginBottom: '48px' }}>
         <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#aaa', marginBottom: '16px' }}>Free HR Tool</div>
-        <h1 style={{ fontFamily: 'var(--font-newsreader)', fontSize: '48px', fontWeight: 300, color: '#1a1a1a', lineHeight: 1, marginBottom: '16px' }}>Statutory Holiday Pay Calculator</h1>
+        <h1 className="tool-h1">Statutory Holiday Pay Calculator</h1>
         <p style={{ fontSize: '14px', color: '#666', maxWidth: '600px', lineHeight: 1.6 }}>Complete list of 2026 Canadian statutory holidays by province and territory. Calculate pay based on whether the employee works or doesn&apos;t work the holiday.</p>
       </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 320px', gap:40, marginBottom:40 }}>
+      <div className="tool-main-grid tool-main-grid--stat">
 
         {/* Holiday list */}
         <div>
@@ -168,52 +169,53 @@ export default function StatHolidayCalculator() {
           )}
         </div>
 
-        {/* Pay calculator */}
-        <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
-          <div style={{ background:'#1a1a1a', borderRadius:8, padding:20, color:'#fff' }}>
-            <div style={{ fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'rgba(192, 57, 43, 0.9)', marginBottom:10 }}>Holiday Pay Calculator</div>
+        {/* Pay calculator — light card; appears first on narrow screens */}
+        <div className="tool-stat-sidebar" style={{ display:'flex', flexDirection:'column', gap:16 }}>
+          <div className="tool-card-elevated" style={{ padding:20 }}>
+            <div className="tool-accent-label" style={{ marginBottom:10 }}>Holiday Pay Calculator</div>
 
             <div style={{ marginBottom:12 }}>
-              <label style={{ display:'block', fontSize:11, fontWeight:700, color:'rgba(255,255,255,0.5)', letterSpacing:1, textTransform:'uppercase', marginBottom:6 }}>Hourly Rate</label>
+              <label style={{ display:'block', fontSize:11, fontWeight:700, color:'#666', letterSpacing:1, textTransform:'uppercase', marginBottom:6 }}>Hourly Rate</label>
               <input type="number" value={hourlySalary} onChange={e=>setHourlySalary(+e.target.value)} min={17} step={0.5}
-                style={{ width:'100%', padding:'8px 10px', border:'1px solid #d1d5db', borderRadius:4, background:'#f9f9f9', color:'#111111', fontFamily:'var(--font-roboto)', fontSize:13, outline:'none' }} />
+                style={{ width:'100%', padding:'8px 10px', border:'1px solid #d1d5db', borderRadius:4, background:'#ffffff', color:'#111111', fontFamily:'var(--font-roboto)', fontSize:13, outline:'none' }} />
             </div>
 
             <div style={{ marginBottom:12 }}>
-              <label style={{ display:'block', fontSize:11, fontWeight:700, color:'rgba(255,255,255,0.5)', letterSpacing:1, textTransform:'uppercase', marginBottom:8 }}>Scenario</label>
+              <label style={{ display:'block', fontSize:11, fontWeight:700, color:'#666', letterSpacing:1, textTransform:'uppercase', marginBottom:8 }}>Scenario</label>
               <div style={{ display:'flex', gap:8 }}>
                 {(['not_working', 'working'] as const).map(v => (
-                  <button key={v} onClick={()=>setIsWorking(v === 'working')}
-                    style={{ flex:1, padding:'8px 10px', borderRadius:6, fontSize:11, fontWeight:600, cursor:'pointer', border:'1.5px solid', borderColor: (v === 'working') === isWorking ? 'rgba(192, 57, 43, 0.9)' : 'rgba(255,255,255,0.2)', background: (v === 'working') === isWorking ? 'rgba(192, 57, 43, 0.2)' : 'transparent', color: '#fff' }}>
+                  <button key={v} type="button" onClick={()=>setIsWorking(v === 'working')}
+                    style={{ flex:1, padding:'8px 10px', borderRadius:6, fontSize:11, fontWeight:600, cursor:'pointer', border:'1.5px solid', borderColor: (v === 'working') === isWorking ? '#c0392b' : '#ddd', background: (v === 'working') === isWorking ? 'rgba(192, 57, 43, 0.08)' : '#fff', color: '#111111' }}>
                     {v === 'working' ? 'Working' : 'Not Working'}
                   </button>
                 ))}
               </div>
             </div>
 
-            <div style={{ padding:12, background:'rgba(0,0,0,0.3)', borderRadius:4 }}>
-              <div style={{ fontSize:10, color:'rgba(255,255,255,0.5)', marginBottom:4 }}>Holiday Pay Per Day (8 hrs)</div>
-              <div style={{ fontFamily:'var(--font-newsreader)', fontSize:24, fontWeight:600 }}>
+            <div style={{ padding:14, background:'#f5f5f3', borderRadius:8, border:'1px solid #e8e6e1' }}>
+              <div style={{ fontSize:10, color:'#666', marginBottom:4 }}>Holiday Pay Per Day (8 hrs)</div>
+              <div className="tool-result-value-xl" style={{ fontSize: 'clamp(1.25rem, 4vw, 1.5rem)' }}>
                 ${Math.round(statPayPerDay).toLocaleString()}
               </div>
-              <div style={{ fontSize:9, color:'rgba(255,255,255,0.3)', marginTop:4 }}>
+              <div style={{ fontSize:11, color:'#666', marginTop:6 }}>
                 {isWorking ? `${premium}x rate if working` : 'Regular rate if not working'}
               </div>
-              <div style={{ fontSize:10, color:'rgba(255,255,255,0.4)', marginTop:6 }}>
+              <div style={{ fontSize:11, color:'#666', marginTop:8 }}>
                 {provHolidays.length} holidays/yr ≈ ${(provHolidays.length * Math.round(statPayPerDay)).toLocaleString()}
               </div>
             </div>
           </div>
 
-          <div style={{ padding:12, background:'#f9f8f6', border:'1px solid #e8e6e1', borderRadius:6, fontSize:10, color:'#666', lineHeight:1.5 }}>
+          <div style={{ padding:12, background:'#ffffff', border:'1px solid #e8e6e1', borderRadius:6, fontSize:10, color:'#666', lineHeight:1.5 }}>
             <strong>Note:</strong> Rates shown are statutory minimums. Employers may offer higher rates. Rates vary by province and employment agreement.
           </div>
         </div>
       </div>
 
       {/* Footer */}
-      <div style={{ maxWidth:'600px', margin:'0 auto', padding:'24px', background:'#f9f8f6', border:'1px solid #e8e6e1', borderRadius:8, textAlign:'center', fontSize:'12px', color:'#aaa' }}>
+      <div style={{ maxWidth:'600px', margin:'0 auto', padding:'24px', background:'#ffffff', border:'1px solid #e8e6e1', borderRadius:8, textAlign:'center', fontSize:'12px', color:'#aaa' }}>
         <Link href="/tools" style={{ color:'#c0392b', textDecoration:'none', fontWeight:600 }}>← Back to Tools</Link>
+      </div>
       </div>
     </div>
   )

@@ -34,7 +34,8 @@ export default function ToolsPageClient() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "48px 32px" }}>
+    <div className="tool-page">
+      <div className="tool-page-inner" style={{ paddingBottom: "3rem" }}>
       {/* Header */}
       <div style={{ marginBottom: "48px" }}>
         <div
@@ -49,16 +50,7 @@ export default function ToolsPageClient() {
         >
           Free HR Tools
         </div>
-        <h1
-          style={{
-            fontFamily: "var(--font-newsreader)",
-            fontSize: "48px",
-            fontWeight: 300,
-            color: "#1a1a1a",
-            lineHeight: 1,
-            marginBottom: "16px",
-          }}
-        >
+        <h1 className="tool-h1">
           Useful HR Tools
         </h1>
         <p
@@ -164,6 +156,7 @@ export default function ToolsPageClient() {
         }}
       >
         Not legal or financial advice. Verify calculations with qualified professionals before relying on them.
+      </div>
       </div>
     </div>
   );
