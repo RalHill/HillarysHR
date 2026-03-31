@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Link from 'next/link'
 
 export default function HRFormulasCalculator() {
@@ -53,43 +53,43 @@ export default function HRFormulasCalculator() {
     return { result: num / denom }
   }
 
-  // Calculate each formula
-  const calcAbsenteeism = () => {
+  // Calculate each formula (memoized to prevent input focus loss)
+  const calcAbsenteeism = useMemo(() => {
     const validation = validate(absenceDays, workdays)
     if (validation.error) return validation
     const result = (validation.result! * 100)
     return { result: Math.round(result * 100) / 100 }
-  }
+  }, [absenceDays, workdays])
 
-  const calcAttrition = () => {
+  const calcAttrition = useMemo(() => {
     const validation = validate(employeesLeft, avgEmployees)
     if (validation.error) return validation
     const result = (validation.result! * 100)
     return { result: Math.round(result * 100) / 100 }
-  }
+  }, [employeesLeft, avgEmployees])
 
-  const calcRetention = () => {
+  const calcRetention = useMemo(() => {
     const validation = validate(employeesEnd, employeesStart)
     if (validation.error) return validation
     const result = (validation.result! * 100)
     return { result: Math.round(result * 100) / 100 }
-  }
+  }, [employeesEnd, employeesStart])
 
-  const calcPromotion = () => {
+  const calcPromotion = useMemo(() => {
     const validation = validate(promotions, positionsFilled)
     if (validation.error) return validation
     const result = (validation.result! * 100)
     return { result: Math.round(result * 100) / 100 }
-  }
+  }, [promotions, positionsFilled])
 
-  const calcCostPerHire = () => {
+  const calcCostPerHire = useMemo(() => {
     const validation = validate(recruitmentCosts, hires)
     if (validation.error) return validation
     const result = validation.result!
     return { result: Math.round(result * 100) / 100 }
-  }
+  }, [recruitmentCosts, hires])
 
-  const calcTimeToHire = () => {
+  const calcTimeToHire = useMemo(() => {
     if (!dateApplied || !dateAccepted) {
       return { error: 'Enter both dates' }
     }
@@ -101,16 +101,16 @@ export default function HRFormulasCalculator() {
     const diffMs = accepted.getTime() - applied.getTime()
     const days = Math.round((diffMs / (1000 * 60 * 60 * 24)) * 100) / 100
     return { result: days }
-  }
+  }, [dateApplied, dateAccepted])
 
-  const calcOfferAcceptance = () => {
+  const calcOfferAcceptance = useMemo(() => {
     const validation = validate(offersAccepted, offersMade)
     if (validation.error) return validation
     const result = (validation.result! * 100)
     return { result: Math.round(result * 100) / 100 }
-  }
+  }, [offersAccepted, offersMade])
 
-  const calcHumanCapitalROI = () => {
+  const calcHumanCapitalROI = useMemo(() => {
     if (compensationCosts === '' || revenue === '') {
       return { error: 'Enter all values' }
     }
@@ -124,14 +124,14 @@ export default function HRFormulasCalculator() {
     }
     const result = ((rev - costs) / costs) * 100
     return { result: Math.round(result * 100) / 100 }
-  }
+  }, [revenue, compensationCosts])
 
-  const calcEngagement = () => {
+  const calcEngagement = useMemo(() => {
     const validation = validate(positiveResponses, totalResponses)
     if (validation.error) return validation
     const result = (validation.result! * 100)
     return { result: Math.round(result * 100) / 100 }
-  }
+  }, [positiveResponses, totalResponses])
 
   // Schema for SEO
   const toolSchema = {
@@ -159,8 +159,8 @@ export default function HRFormulasCalculator() {
   }
 
   // Helper to render a formula section
-  const FormulaSection = ({ title, explanation, children, calcResult }: { title: string; explanation: string; children: React.ReactNode; calcResult: () => { error?: string; result?: number } }) => {
-    const calculation = calcResult()
+  const FormulaSection = ({ title, explanation, children, calcResult }: { title: string; explanation: string; children: React.ReactNode; calcResult: { error?: string; result?: number } }) => {
+    const calculation = calcResult
     const isError = !!calculation.error
 
     return (
