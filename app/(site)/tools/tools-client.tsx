@@ -28,6 +28,12 @@ const tools = [
     href: "/tools/stat-holiday-calculator",
     icon: "🇨🇦",
   },
+  {
+    name: "HR Formulas Calculator",
+    description: "Calculate absenteeism, attrition, retention, cost per hire, and 5 more core HR metrics instantly.",
+    href: "/tools/hr-formulas-calculator",
+    icon: "🧮",
+  },
 ];
 
 export default function ToolsPageClient() {
