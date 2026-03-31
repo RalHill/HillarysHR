@@ -159,7 +159,7 @@ export default function HRFormulasCalculator() {
   }
 
   // Helper to render a formula section (memoized to prevent unnecessary re-renders)
-  const FormulaSection = React.memo(({ title, explanation, children, calcResult }: { title: string; explanation: string; children: React.ReactNode; calcResult: { error?: string; result?: number } }) => {
+  const FormulaSection = React.memo(function FormulaSectionComponent({ title, explanation, children, calcResult }: { title: string; explanation: string; children: React.ReactNode; calcResult: { error?: string; result?: number } }) {
     const calculation = calcResult
     const isError = !!calculation.error
 
@@ -197,7 +197,8 @@ export default function HRFormulasCalculator() {
   })
 
   // Helper to render a text input field (memoized to prevent re-renders)
-  const Input = React.memo(({ label, value, onChange, type = 'number' }: { label: string; value: string; onChange: (val: string) => void; type?: string }) => (
+  const Input = React.memo(function InputField({ label, value, onChange, type = 'number' }: { label: string; value: string; onChange: (val: string) => void; type?: string }) {
+    return (
     <div>
       <label style={{ display: 'block', fontSize: 11, fontWeight: 700, letterSpacing: 0.8, textTransform: 'uppercase', color: '#aaa', marginBottom: 6 }}>
         {label}
@@ -220,7 +221,8 @@ export default function HRFormulasCalculator() {
         }}
       />
     </div>
-  ))
+    )
+  })
 
   return (
     <div className="tool-page">
